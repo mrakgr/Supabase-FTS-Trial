@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "esbuild": "^0.20.2",
+    "supabase": "^1.163.6",
     "typescript": "^5.4.5"
   },
   "dependencies": {
