@@ -10,3 +10,12 @@ https://ask.replit.com/t/docker-in-replit/14766
 Unfortunately, it doesn't seem like it is possible to setup Supabase locally due to the lack of Docker on Replit. The CLI tool tries getting the Docker image for Supabase and then aborts.
 
 The CLI tool works, so I'll focus on using just it with a remote db.
+
+## Notes - Supabase on Replit
+
+Would it be possible to have a Supabase local install on Replit?
+
+https://g.co/gemini/share/fde61886bf8e
+https://supabase.com/blog/using-supabase-replit
+
+...
