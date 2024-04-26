@@ -25,21 +25,29 @@ class UI_Main extends LitElement {
     }
   `
   
-  @property({type: Array}) data: string[] = ["qwe"];
+  render_data = (data : string[]) => map(data, (d) => html`<div>${d}</div>`)
+  
   render() {
     return html`
       <div>
         <button @click=${this.on_test}>Test Db</button>
       </div>
-      ${map(this.data, (d) => html`<div>${d}</div>`)}
+      ${
+        this.task_fetch.render({
+          initial: () => html`Waiting for click...`,
+          pending: () => html`Waiting for reply...`,
+          complete: this.render_data,
+          error: (er) => html`Error: ${er.message}`
+        })
+      }
     `;
   }
 
   task_fetch = new Task(this, async ([],{signal}) => {
     const data = await fetch("/api/test", {signal})
-    this.data = await data.json();
+    if (!data.ok) { throw Error(data.statusText) }
+    return await data.json();
   })
 
-  on_test = async () => {
-  }
+  on_test = () => this.task_fetch.run([])
 }
