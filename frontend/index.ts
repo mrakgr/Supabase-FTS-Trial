@@ -1,2 +1,2 @@
-const t : number = true;
+const t = true;
 
