@@ -23,31 +23,37 @@ class UI_Main extends LitElement {
     button {
       width: 100%;
     }
+
+    textarea {
+      width: 100%;
+    }
   `
   
-  render_data = (data : string[]) => map(data, (d) => html`<div>${d}</div>`)
+  render_data = (data : string[]) => map(data, (d) => html`<div>${JSON.stringify(d)}</div>`)
   
   render() {
     return html`
       <div>
-        <button @click=${this.on_test}>Test Db</button>
+        <button @click=${this.on_get_all_concepts}>Get All Concepts</button>
+        <textarea @input=${this.on_search}></textarea>
       </div>
       ${
-        this.task_fetch.render({
+        this.task_api_get.render({
           initial: () => html`Waiting for click...`,
           pending: () => html`Waiting for reply...`,
           complete: this.render_data,
-          error: (er) => html`Error: ${er.message}`
+          error: (er : any) => html`Error: ${er.message}`
         })
       }
     `;
   }
 
-  task_fetch = new Task(this, async ([],{signal}) => {
-    const data = await fetch("/api/test", {signal})
+  task_api_get = new Task(this, async ([url] : [string],{signal}) => {
+    const data = await fetch(`/api/${url}`, {signal})
     if (!data.ok) { throw Error(data.statusText) }
     return await data.json();
   })
 
-  on_test = () => this.task_fetch.run([])
+  on_get_all_concepts = () => this.task_api_get.run(["get_all_concepts"])
+  on_search = (ev : any) => this.task_api_get.run([`fts/${btoa(ev.target.value)}`])
 }

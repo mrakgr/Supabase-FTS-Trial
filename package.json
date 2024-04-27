@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "base": "tsc && esbuild frontend/*.ts --bundle --outdir=static/bundles/",
+    "base": "esbuild frontend/*.ts --bundle --outdir=static/bundles/",
     "build": "npm run base -- --sourcemap",
     "watch": "npm run build -- --watch"
   },
